@@ -1,6 +1,5 @@
 import { useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Status } from '../common/commonTypes';
 import { getBinanceTicker, selectBinanceData, selectBinanceStatus } from '../binance/binanceSlice';
 import { getBitfinexTicker, selectBitfinexData, selectBitfinexStatus } from '../bitfinex/bitfinexSlice';
 import { getHuobiTicker, selectHuobiData, selectHuobiStatus } from '../huobi/huobiSlice';
@@ -70,8 +69,7 @@ const useExchanges = (params: ExchangesParams) => {
 
   const isLoading = useMemo(() => exchanges.some(e => e.status === 'loading'), [exchanges]);
   const isLoaded = useMemo(() => {
-    const isLoadedFilters: Status[] = ['succeeded', 'failed'];
-    return exchanges.every(e => isLoadedFilters.includes(e.status));
+    return exchanges.every(e => e.status !== 'idle');
   }, [exchanges]);
 
   useEffect(() => {

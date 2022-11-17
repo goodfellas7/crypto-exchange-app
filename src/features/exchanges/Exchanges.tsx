@@ -18,18 +18,21 @@ const Exchanges = ({
   const {
     exchanges,
     isLoading,
+    isLoaded
   } = useExchanges({ cryptocurrencyPair, sort });
   const trades = useTrades({ platform, cryptocurrencyPair });
 
   return (
     <div id='exchanges'>
       <Container sx={{ height: 50 }}>{isLoading ? <CircularProgress /> : null}</Container>
-      <ExchangesTable
-        exchanges={exchanges}
-        sort={sort}
-        onSortChange={setSort}
-        onShowExchange={platform => setPlatform(platform)}
-      />
+      {isLoaded ? (
+        <ExchangesTable
+          exchanges={exchanges}
+          sort={sort}
+          onSortChange={setSort}
+          onShowExchange={platform => setPlatform(platform)}
+        />
+      ) : null}
       <Dialog
         open={!!platform}
         onClose={() => setPlatform(null)}
